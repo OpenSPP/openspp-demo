@@ -194,7 +194,7 @@ class ChangeRequestAddChildren(models.Model):
                 _("There are no directories defined for this change request.")
             )
 
-    def validate_data(self):
+    def validate_data_2(self):
         super().validate_data()
         if not self.family_name:
             raise ValidationError(_("The Family Name is required."))
