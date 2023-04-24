@@ -102,7 +102,7 @@ class SPPOpenCRVSConfig(models.Model):
     name = fields.Char("Config Name", required=True)
     domain = fields.Char(required=True)
     client_id = fields.Char("Client ID", required=True)
-    client_secret = fields.Char("Config Name", required=True)
+    client_secret = fields.Char(required=True)
     auth_token_url = fields.Char("Auth Token URL", required=True)
     auth_token = fields.Char()
     is_active = fields.Boolean("Active")
