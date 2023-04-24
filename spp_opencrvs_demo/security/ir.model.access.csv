@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+spp_opencrvs_import_admin,OpenSPP OpenCRVS Import Admin Access,spp_opencrvs_demo.model_spp_opencrvs_import,g2p_registry_base.group_g2p_admin,1,1,1,1
+spp_opencrvs_config_admin,OpenSPP OpenCRVS Config Admin Access,spp_opencrvs_demo.model_spp_opencrvs_config,g2p_registry_base.group_g2p_admin,1,1,1,1
