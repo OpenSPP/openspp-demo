@@ -4,7 +4,8 @@ import logging
 
 import requests
 
-from odoo import fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -33,6 +34,22 @@ class SPPOpenCRVSImport(models.Model):
     date_of_birth = fields.Date()
     first_name = fields.Char()
     family_name = fields.Char()
+    group_id = fields.Many2one(
+        "res.partner",
+        "Group",
+        domain=[("is_registrant", "=", True), ("is_group", "=", True)],
+    )
+    applicant_id = fields.Many2one(
+        "res.partner",
+        "Applicant",
+        domain=[("is_registrant", "=", True), ("is_group", "=", False)],
+    )
+    applicant_id_domain = fields.Char(
+        compute="_compute_applicant_id_domain",
+        readonly=True,
+        store=False,
+    )
+    applicant_phone = fields.Char()
     state = fields.Selection(
         [
             ("Draft", "Draft"),
@@ -42,6 +59,27 @@ class SPPOpenCRVSImport(models.Model):
         ],
         default="Draft",
     )
+    cr_id = fields.Many2one("spp.change.request")
+
+    @api.depends("group_id")
+    def _compute_applicant_id_domain(self):
+        """
+        Called whenever registrant_id field is changed
+
+        This method is used for dynamic domain of applicant_id field
+        """
+        for rec in self:
+            domain = [("id", "=", 0)]
+            if rec.group_id:
+                # TODO: Use the is_ended field to filter
+                # Get only the members with non-expired membership
+                group_memberships = rec.group_id.group_membership_ids.filtered(
+                    lambda a: not a.ended_date or a.ended_date > fields.Datetime.now()
+                )
+                if group_memberships:
+                    group_membership_ids = group_memberships.mapped("individual.id")
+                    domain = [("id", "in", group_membership_ids)]
+            rec.applicant_id_domain = json.dumps(domain)
 
     def fetch_data_opencrvs(self):
         for rec in self:
@@ -79,17 +117,28 @@ class SPPOpenCRVSImport(models.Model):
 
     def import_data(self):
         for rec in self:
-            name = "{}, {}".format(rec.family_name, rec.first_name).upper()
-            vals = {
-                "is_registrant": True,
-                "is_group": False,
-                "given_name": rec.first_name,
-                "family_name": rec.family_name,
-                "birthdate": rec.date_of_birth,
-                "name": name,
-            }
-            self.env["res.partner"].create(vals)
-            rec.state = "Imported"
+            if rec.group_id and rec.applicant_id and rec.applicant_phone:
+                cr_vals = {
+                    "request_type": "spp.change.request.add.child",
+                    "applicant_id": rec.applicant_id.id,
+                    "registrant_id": rec.group_id.id,
+                    "applicant_phone": rec.applicant_phone,
+                }
+
+                cr_id = self.env["spp.change.request"].create(cr_vals)
+                cr_id.create_request_detail()
+                rec.cr_id = cr_id.id
+                cr_add_child_vals = {
+                    "given_name": rec.first_name or None,
+                    "family_name": rec.family_name or None,
+                    "birthdate": rec.date_of_birth or None,
+                }
+                cr_id.request_type_ref_id.update(cr_add_child_vals)
+                rec.state = "Imported"
+            else:
+                raise UserError(
+                    _("Group, Applicant and Applicant Phone Number are required")
+                )
 
     def cancel_import(self):
         for rec in self:

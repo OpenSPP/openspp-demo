@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="view_change_request_add_child_crvs_form" model="ir.ui.view">
+        <field name="name">view_change_request_add_child_crvs_form</field>
+        <field name="model">spp.change.request.add.child</field>
+        <field name="priority">1000</field>
+        <field name="inherit_id" ref="spp_change_request_add_child.view_change_request_add_child_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='id_document_details']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='id_document_details']" position="after">
+                <div col="8">
+                    <div colspan="4">
+                        <label for="brn" />
+                        <field name="brn" />
+                        <button
+                            name="fetch_data_from_opencrvs"
+                            style="margin-left: 10px;"
+                            type="object"
+                            string="Fetch Data"
+                            class="btn-primary"
+                        />
+                    </div>
+                    <div colspan="4">
+
+                    </div>
+                </div>
+                <field name="crvs_config_id" invisible="1" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

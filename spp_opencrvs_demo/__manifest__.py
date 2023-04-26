@@ -14,6 +14,8 @@
         "g2p_registry_individual",
         "g2p_registry_group",
         "g2p_registry_membership",
+        "spp_change_request",
+        "spp_change_request_add_child",
     ],
     "external_dependencies": {},
     "data": [
@@ -21,6 +23,7 @@
         "views/main_view.xml",
         "views/import_view.xml",
         "views/configuration_view.xml",
+        "views/cr_add_child.xml",
     ],
     "assets": {},
     "demo": [],
