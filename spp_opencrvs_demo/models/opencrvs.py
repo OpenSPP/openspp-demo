@@ -119,7 +119,7 @@ class SPPOpenCRVSImport(models.Model):
         for rec in self:
             if rec.group_id and rec.applicant_id and rec.applicant_phone:
                 cr_vals = {
-                    "request_type": "spp.change.request.add.child",
+                    "request_type": "spp.opencrvs.cr.add.child",
                     "applicant_id": rec.applicant_id.id,
                     "registrant_id": rec.group_id.id,
                     "applicant_phone": rec.applicant_phone,

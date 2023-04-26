@@ -3,9 +3,9 @@
 
     <record id="view_change_request_add_child_crvs_form" model="ir.ui.view">
         <field name="name">view_change_request_add_child_crvs_form</field>
-        <field name="model">spp.change.request.add.child</field>
+        <field name="model">spp.opencrvs.cr.add.child</field>
         <field name="priority">1000</field>
-        <field name="inherit_id" ref="spp_change_request_add_child.view_change_request_add_child_form" />
+        <field name="inherit_id" ref="spp_opencrvs_cr_add_child.view_change_request_add_child_form" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='id_document_details']" position="attributes">
                 <attribute name="invisible">1</attribute>

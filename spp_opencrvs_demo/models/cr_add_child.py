@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 
 
 class ChangeRequestTypeCustomAddChildMember(models.Model):
-    _inherit = "spp.change.request.add.child"
+    _inherit = "spp.opencrvs.cr.add.child"
 
     def _default_config_id(self):
         config_id = None
