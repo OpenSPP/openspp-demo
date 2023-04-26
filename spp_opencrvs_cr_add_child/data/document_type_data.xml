@@ -1,21 +1,21 @@
 <odoo noupdate="1">
         <!-- Parent Category -->
       <record id="spp_crvs_dms_certificates" model="dms.category">
-          <field name="name">Certificates</field>
+          <field name="name">CRVS Certificates</field>
       </record>
       <record id="spp_crvs_dms_request_form_document" model="dms.category">
-          <field name="name">Request Form Document</field>
+          <field name="name">CRVS Request Form Document</field>
       </record>
 
         <!-- Child Category Certificates-->
       <record id="spp_crvs_dms_birth_certificate" model="dms.category">
-          <field name="name">Birth Certificate</field>
+          <field name="name">CRVS Birth Certificate</field>
           <field name="parent_id" ref="spp_opencrvs_cr_add_child.spp_crvs_dms_certificates" />
       </record>
 
         <!-- Child Category Request Form Document-->
       <record id="spp_crvs_dms_add_children" model="dms.category">
-          <field name="name">Add Children Request Form</field>
+          <field name="name">CRVS Add Children Request Form</field>
           <field name="parent_id" ref="spp_opencrvs_cr_add_child.spp_crvs_dms_request_form_document" />
       </record>
 </odoo>
