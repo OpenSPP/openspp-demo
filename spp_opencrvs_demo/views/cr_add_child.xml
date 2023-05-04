@@ -10,24 +10,26 @@
             <xpath expr="//field[@name='id_document_details']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
-            <xpath expr="//field[@name='id_document_details']" position="after">
-                <div col="8">
-                    <div colspan="4">
-                        <label for="brn" />
-                        <field name="brn" />
-                        <button
-                            name="fetch_data_from_opencrvs"
-                            style="margin-left: 10px;"
-                            type="object"
-                            string="Fetch Data"
-                            class="btn-primary"
-                        />
-                    </div>
-                    <div colspan="4">
+            <xpath expr="//page[1]" position="before">
+                <page string="OpenCRVS">
+                    <group>
+                        <group>
+                            <field name="brn" />
+                            <field name="crvs_qr" />
+                        </group>
+                        <group>
+                            <field name="crvs_record_id" />
+                            <button
+                                name="fetch_data_from_opencrvs"
+                                type="object"
+                                string="Fetch Data"
+                                class="btn-primary"
+                            />
+                        </group>
+                        <field name="crvs_config_id" invisible="1" />
+                    </group>
 
-                    </div>
-                </div>
-                <field name="crvs_config_id" invisible="1" />
+                </page>
             </xpath>
         </field>
     </record>
