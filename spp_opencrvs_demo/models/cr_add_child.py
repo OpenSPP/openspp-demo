@@ -86,6 +86,22 @@ class ChangeRequestTypeCustomAddChildMember(models.Model):
                         if birth_place:
                             rec.birth_place = birth_place
 
+                        mother_first_name = response_json["mothersFirstName"]
+                        mother_last_name = response_json["mothersLastName"]
+
+                        father_first_name = response_json["fathersFirstName"]
+                        father_last_name = response_json["fathersLastName"]
+
+                        parent_exists = self.check_if_parent_exists(
+                            mother_first_name,
+                            mother_last_name,
+                            father_first_name,
+                            father_last_name,
+                        )
+                        if parent_exists:
+                            rec.action_submit()
+                            # rec.action_validate()
+
                         message = "Successfully fetched %s, %s with birthdate: %s." % (
                             rec.family_name,
                             rec.given_name,
@@ -105,3 +121,45 @@ class ChangeRequestTypeCustomAddChildMember(models.Model):
                                 },
                             },
                         }
+
+    def check_if_parent_exists(
+        self, mother_first, mother_last, father_first, father_last
+    ):
+        exists = False
+        if mother_first and mother_last:
+            mother_exists = self.check_if_individual_exists(mother_first, mother_last)
+            if mother_exists:
+                _logger.info("Mother EXISTS AS PARTNER")
+                mother_group_exists = self.check_if_membership_exists(mother_exists)
+                if mother_group_exists:
+                    exists = True
+                    _logger.info("Mother EXISTS AS MEMBER")
+
+        if father_first and father_last:
+            father_exists = self.check_if_individual_exists(father_first, father_last)
+            if father_exists:
+                _logger.info("Father EXISTS AS PARTNER")
+                father_exists = self.check_if_membership_exists(father_exists)
+                if father_exists:
+                    exists = True
+                    _logger.info("Father EXISTS AS MEMBER")
+
+        return exists
+
+    def check_if_individual_exists(self, individual_first, individual_last):
+        individual_id = self.env["res.partner"].search(
+            [
+                ("given_name", "=", individual_first),
+                ("family_name", "=", individual_last),
+            ]
+        )
+        _logger.info("Individual %s", individual_id)
+        _logger.info("Individual FIRST NAME: %s", individual_first)
+        _logger.info("Individual LAST NAME: %s", individual_last)
+
+        return individual_id
+
+    def check_if_membership_exists(self, member):
+        return self.env["g2p.group.membership"].search(
+            [("group", "=", self.registrant_id.id), ("individual", "=", member.id)]
+        )
