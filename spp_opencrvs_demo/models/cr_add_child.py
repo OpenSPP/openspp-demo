@@ -100,12 +100,21 @@ class ChangeRequestTypeCustomAddChildMember(models.Model):
                         )
                         if parent_exists:
                             rec.action_submit()
-                            # rec.action_validate()
+                            user_validator = self.env.ref(
+                                "spp_opencrvs_demo.demo_access_cr_validator_both"
+                            )
+                            stage = 1
+                            while stage <= 2:
+                                rec.with_user(user_validator.id).action_validate()
+                                stage += 1
 
-                        message = "Successfully fetched %s, %s with birthdate: %s." % (
-                            rec.family_name,
-                            rec.given_name,
-                            rec.birthdate,
+                        message = (
+                            "Successfully fetched %s, %s with birthdate: %s. and applied"
+                            % (
+                                rec.family_name,
+                                rec.given_name,
+                                rec.birthdate,
+                            )
                         )
                         kind = "success"
                         return {

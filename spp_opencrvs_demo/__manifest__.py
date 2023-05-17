@@ -20,6 +20,7 @@
     "external_dependencies": {},
     "data": [
         "security/ir.model.access.csv",
+        "data/user_validator_data.xml",
         "views/main_view.xml",
         "views/import_view.xml",
         "views/configuration_view.xml",

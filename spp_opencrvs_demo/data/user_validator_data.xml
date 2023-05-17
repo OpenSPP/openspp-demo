@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="0">
+
+    <record id="demo_access_cr_validator_both" model="res.users" context="{'no_reset_password': True}">
+            <field name="name">CR Validator Local and HQ</field>
+            <field name="login">cr_validator_both</field>
+            <field name="password">atMnSaWYymYD</field>
+            <field name="email">cr_validator_both@yourorg.example.com</field>
+            <field name="notification_type">inbox</field>
+            <field
+            name="groups_id"
+            eval="[(6, 0, [ref('base.group_user'), ref('spp_change_request.group_spp_change_request_hq_validator'), ref('spp_change_request.group_spp_change_request_local_validator'), ref('spp_change_request.group_spp_change_request_validator')])]"
+        />
+        </record>
+
+</odoo>
