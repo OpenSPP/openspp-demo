@@ -50,6 +50,9 @@ class ChangeRequestTypeCustomAddChildMember(models.Model):
                     }
 
                 else:
+                    stripped_crvs_qr = rec.crvs_qr
+                    rec.crvs_qr = stripped_crvs_qr.strip()
+
                     if rec.crvs_qr and not rec.crvs_record_id:
                         crvs_qr = rec.crvs_qr.rsplit("/", 1)[-1]
                         rec.crvs_record_id = crvs_qr
