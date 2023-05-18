@@ -45,7 +45,7 @@ class ChangeRequestTypeCustomAddChildMember(models.Model):
                 vals = {
                     "crvs_qr": details["qrcode"].strip()
                 }
-            self.update(vals)
+                self.update(vals)
         else:
             raise UserError(
                 _("There are no data captured from the QR Code scanner.")
