@@ -4,7 +4,7 @@ import logging
 import requests
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -33,16 +33,18 @@ class ChangeRequestTypeCustomAddChildMember(models.Model):
 
     certificate_details = fields.Text("Certificate Document")
 
-    @api.onchange("certificate_details")
+    @api.onchange('certificate_details')
     def onchange_certificate_details(self):
-        if self.qr_code_details:
+        if self.certificate_details:
             try:
-                details = json.loads(self.qr_code_details)
+                details = json.loads(self.certificate_details)
             except json.decoder.JSONDecodeError as e:
                 details = None
                 _logger.error(e)
             if details:
-                vals = {"crvs_qr": details["qrcode"].strip()}
+                vals = {
+                    "crvs_qr": details["qrcode"].strip()
+                }
                 self.update(vals)
             else:
                 raise UserError(
@@ -130,11 +132,14 @@ class ChangeRequestTypeCustomAddChildMember(models.Model):
                                 rec.with_user(user_validator.id).action_validate()
                                 stage += 1
 
-                        message = "Successfully fetched %s, %s with birthdate: %s." % (
-                            rec.family_name,
-                            rec.given_name,
-                            rec.birthdate,
-                        )
+                        message = (
+                                "Successfully fetched %s, %s with birthdate: %s."
+                                % (
+                                    rec.family_name,
+                                    rec.given_name,
+                                    rec.birthdate,
+                                )
+                            )
                         if rec.state == "applied":
                             message = (
                                 "Successfully fetched %s, %s with birthdate: %s. and applied"
