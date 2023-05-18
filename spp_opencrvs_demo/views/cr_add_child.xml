@@ -12,6 +12,17 @@
             </xpath>
             <xpath expr="//page[1]" position="before">
                 <page string="OpenCRVS">
+                    <div>
+                        <field
+                            name="certificate_details"
+                            widget="id_document_qrreader_field"
+                            icon="fa-qrcode"
+                            string="Scan Certificate"
+                            colspan="4"
+                            class="oe_inline"
+                            style="margin-left: 10px;"
+                        />
+                    </div>
                     <group>
                         <group>
                             <field name="brn" />

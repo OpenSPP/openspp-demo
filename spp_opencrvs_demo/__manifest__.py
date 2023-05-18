@@ -16,6 +16,7 @@
         "g2p_registry_membership",
         "spp_change_request",
         "spp_opencrvs_cr_add_child",
+        "spp_scan_id_document",
     ],
     "external_dependencies": {},
     "data": [
