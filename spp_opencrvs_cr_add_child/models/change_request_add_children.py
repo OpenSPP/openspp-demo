@@ -357,12 +357,6 @@ class ChangeRequestAddChildMember(models.Model):
             error_messages.append(_("The First Name is required."))
         if not self.birthdate:
             error_messages.append(_("The Date of Birth is required."))
-        if self.age.isdigit():
-            age = int(self.age)
-            if age < 18 and not self.applicant_relation:
-                error_messages.append(
-                    _("The Applicant's relation to Child is required.")
-                )
         if not self.gender:
             error_messages.append(_("The Gender is required."))
 
