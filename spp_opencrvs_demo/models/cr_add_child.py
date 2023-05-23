@@ -1,10 +1,11 @@
 import json
 import logging
+from uuid import uuid4
 
 import requests
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -33,7 +34,7 @@ class ChangeRequestTypeCustomAddChildMember(models.Model):
 
     certificate_details = fields.Text("Certificate Document")
 
-    @api.onchange('certificate_details')
+    @api.onchange("certificate_details")
     def onchange_certificate_details(self):
         if self.certificate_details:
             try:
@@ -42,14 +43,10 @@ class ChangeRequestTypeCustomAddChildMember(models.Model):
                 details = None
                 _logger.error(e)
             if details:
-                vals = {
-                    "crvs_qr": details["qrcode"].strip()
-                }
+                vals = {"crvs_qr": details["qrcode"].strip()}
                 self.update(vals)
         else:
-            raise UserError(
-                _("There are no data captured from the QR Code scanner.")
-            )
+            raise UserError(_("There are no data captured from the QR Code scanner."))
 
     def fetch_data_from_opencrvs(self):
         for rec in self:
@@ -132,17 +129,16 @@ class ChangeRequestTypeCustomAddChildMember(models.Model):
                                 rec.with_user(user_validator.id).action_validate()
                                 stage += 1
 
-                        message = (
-                                "Successfully fetched %s, %s with birthdate: %s."
-                                % (
-                                    rec.family_name,
-                                    rec.given_name,
-                                    rec.birthdate,
-                                )
-                            )
+                        message = "Successfully fetched %s, %s with birthdate: %s." % (
+                            rec.family_name,
+                            rec.given_name,
+                            rec.birthdate,
+                        )
                         if rec.state == "applied":
+                            program = rec.create_program()
+                            program.enroll_eligible_registrants()
                             message = (
-                                "Successfully fetched %s, %s with birthdate: %s. and applied"
+                                "Successfully fetched %s, %s with birthdate: %s. and CR is automatically applied."
                                 % (
                                     rec.family_name,
                                     rec.given_name,
@@ -205,3 +201,128 @@ class ChangeRequestTypeCustomAddChildMember(models.Model):
         return self.env["g2p.group.membership"].search(
             [("group", "=", self.registrant_id.id), ("individual", "=", member.id)]
         )
+
+    def create_program(self):
+        for rec in self:
+            journal_id = rec.create_journal(
+                "Lifting Families", self.env.company.currency_id.id
+            )
+
+            program = self.env["g2p.program"].create(
+                {
+                    "name": "Lifting Families",
+                    "journal_id": journal_id,
+                    "target_type": "group",
+                }
+            )
+
+            program_id = program.id
+            vals = {}
+
+            # Set Default Eligibility Manager settings
+            # Add a new record to default eligibility manager model
+            def_mgr_obj = "g2p.program_membership.manager.default"
+            def_mgr = self.env[def_mgr_obj].create(
+                {"name": "Default", "program_id": program_id}
+            )
+            # Add a new record to eligibility manager parent model
+            man_obj = self.env["g2p.eligibility.manager"]
+            mgr = man_obj.create(
+                {
+                    "program_id": program_id,
+                    "manager_ref_id": "%s,%s" % (def_mgr_obj, str(def_mgr.id)),
+                }
+            )
+            vals.update({"eligibility_managers": [(4, mgr.id)]})
+
+            # Set Default Cycle Manager settings
+            # Add a new record to default cycle manager model
+            def_mgr_obj = "g2p.cycle.manager.default"
+            def_mgr = self.env[def_mgr_obj].create(
+                {
+                    "name": "Default",
+                    "program_id": program_id,
+                    "auto_approve_entitlements": True,
+                    "cycle_duration": 1,
+                }
+            )
+
+            # Add a new record to cycle manager parent model
+            man_obj = self.env["g2p.cycle.manager"]
+            mgr = man_obj.create(
+                {
+                    "program_id": program_id,
+                    "manager_ref_id": "%s,%s" % (def_mgr_obj, str(def_mgr.id)),
+                }
+            )
+            vals.update({"cycle_managers": [(4, mgr.id)]})
+
+            # Set Default Entitlement Manager
+            vals.update(rec._get_entitlement_manager(program_id))
+
+            # Complete the program data
+            program.update(vals)
+
+            vals = {
+                "partner_id": rec.registrant_id.id,
+                "program_id": program_id,
+            }
+            _logger.debug("Adding to Program Membership: %s" % vals)
+            self.env["g2p.program_membership"].create(vals)
+
+            return program
+
+    def create_journal(self, name, currency_id):
+        program_name = name.split(" ")
+        code = ""
+        for pn in program_name:
+            if pn:
+                code += pn[0].upper()
+        if len(code) == 0:
+            code = program_name[3].strip().upper()
+        account_chart = self.env["account.account"].search(
+            [
+                ("company_id", "=", self.env.company.id),
+                ("user_type_id.type", "=", "liquidity"),
+            ]
+        )
+        # Check if code is unique
+        code_exist = self.env["account.journal"].search([("code", "=", code)])
+        if code_exist:
+            # code += str(len(code_exist)) + code
+            code = str(uuid4())[4:-19][1:]
+        default_account_id = None
+        if account_chart:
+            default_account_id = account_chart[0].id
+        new_journal = self.env["account.journal"].create(
+            {
+                "name": name,
+                "beneficiary_disb": True,
+                "type": "bank",
+                "default_account_id": default_account_id,
+                "code": code,
+                "currency_id": currency_id,
+            }
+        )
+        return new_journal.id
+
+    def _get_entitlement_manager(self, program_id):
+        def_mgr_obj = "g2p.program.entitlement.manager.default"
+        def_mgr = self.env[def_mgr_obj].create(
+            {
+                "name": "Default",
+                "program_id": program_id,
+                "amount_per_cycle": 1000,
+                "amount_per_individual_in_group": 10,
+            }
+        )
+        # Add a new record to entitlement manager parent model
+        man_obj = self.env["g2p.program.entitlement.manager"]
+        mgr = man_obj.create(
+            {
+                "program_id": program_id,
+                "manager_ref_id": "%s,%s" % (def_mgr_obj, str(def_mgr.id)),
+            }
+        )
+        val = {"entitlement_managers": [(4, mgr.id)]}
+        return val

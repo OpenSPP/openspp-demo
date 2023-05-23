@@ -411,6 +411,7 @@ class ChangeRequestAddChildMember(models.Model):
             }
         )
         individual_id.phone_number_ids_change()
+        individual_id.name_change()
         # Add to group
         self.env["g2p.group.membership"].create(
             {

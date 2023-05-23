@@ -17,6 +17,7 @@
         "spp_change_request",
         "spp_opencrvs_cr_add_child",
         "spp_scan_id_document",
+        "spp_programs",
     ],
     "external_dependencies": {},
     "data": [
