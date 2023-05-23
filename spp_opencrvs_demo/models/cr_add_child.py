@@ -4,7 +4,7 @@ from uuid import uuid4
 
 import requests
 
-from odoo import _, api, fields, models
+from odoo import Command, _, api, fields, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -31,7 +31,6 @@ class ChangeRequestTypeCustomAddChildMember(models.Model):
     brn = fields.Char("BRN")
     crvs_qr = fields.Text("Scanned QR")
     crvs_record_id = fields.Char("Record ID")
-
     certificate_details = fields.Text("Certificate Document")
 
     @api.onchange("certificate_details")
@@ -47,6 +46,60 @@ class ChangeRequestTypeCustomAddChildMember(models.Model):
                 self.update(vals)
         else:
             raise UserError(_("There are no data captured from the QR Code scanner."))
+
+    def update_live_data(self):
+        """
+        Update data when the change request is already validated by all validators
+        and change request's state is applied
+
+        :return:
+
+        :raise:
+        """
+        self.ensure_one()
+        if self.child_ids:
+            return self.update_live_data_from_childs()
+        # Create a new individual (res.partner)
+        kinds = []
+        for rec in self.kind:
+            kinds.append(Command.link(rec.id))
+        if self.phone:
+            phone_rec = [
+                Command.create(
+                    {
+                        "phone_no": self.phone,
+                    }
+                )
+            ]
+        else:
+            phone_rec = None
+
+        individual_id = self.env["res.partner"].create(
+            {
+                "is_registrant": True,
+                "is_group": False,
+                "name": self.full_name,
+                "given_name": self.given_name,
+                "family_name": self.family_name,
+                "birth_place": self.birth_place,
+                "birthdate_not_exact": self.birthdate_not_exact,
+                "birthdate": self.birthdate,
+                "gender": self.gender,
+                "phone_number_ids": phone_rec,
+            }
+        )
+        individual_id.phone_number_ids_change()
+        individual_id.name_change()
+        # Add to group
+        self.env["g2p.group.membership"].create(
+            {
+                "group": self.registrant_id.id,
+                "individual": individual_id.id,
+                "kind": kinds,
+            }
+        )
+        program = self.create_program()
+        program.enroll_eligible_registrants()
 
     def fetch_data_from_opencrvs(self):
         for rec in self:
@@ -119,8 +172,10 @@ class ChangeRequestTypeCustomAddChildMember(models.Model):
                             father_first_name,
                             father_last_name,
                         )
+
+                        rec.action_submit()
+
                         if parent_exists:
-                            rec.action_submit()
                             user_validator = self.env.ref(
                                 "spp_opencrvs_demo.demo_access_cr_validator_both"
                             )
@@ -134,9 +189,8 @@ class ChangeRequestTypeCustomAddChildMember(models.Model):
                             rec.given_name,
                             rec.birthdate,
                         )
+
                         if rec.state == "applied":
-                            program = rec.create_program()
-                            program.enroll_eligible_registrants()
                             message = (
                                 "Successfully fetched %s, %s with birthdate: %s. and CR is automatically applied."
                                 % (
@@ -145,6 +199,7 @@ class ChangeRequestTypeCustomAddChildMember(models.Model):
                                     rec.birthdate,
                                 )
                             )
+
                         kind = "success"
                         return {
                             "type": "ir.actions.client",

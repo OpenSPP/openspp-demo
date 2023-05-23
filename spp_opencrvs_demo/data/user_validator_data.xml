@@ -9,7 +9,7 @@
             <field name="notification_type">inbox</field>
             <field
             name="groups_id"
-            eval="[(6, 0, [ref('base.group_user'), ref('spp_change_request.group_spp_change_request_hq_validator'), ref('spp_change_request.group_spp_change_request_local_validator'), ref('spp_change_request.group_spp_change_request_validator')])]"
+            eval="[(6, 0, [ref('base.group_user'), ref('spp_change_request.group_spp_change_request_hq_validator'), ref('spp_change_request.group_spp_change_request_local_validator'), ref('spp_change_request.group_spp_change_request_validator'), ref('g2p_registry_base.group_g2p_admin')])]"
         />
         </record>
 
