@@ -182,7 +182,7 @@
                                     <field name="full_name" />
                                     <field name="given_name" />
                                     <field name="family_name" />
-                                    <field name="birth_place" invisible="1"/>
+                                    <field name="birth_place" invisible="1" />
                                     <field name="birthdate" />
                                     <field name="age" />
                                     <field name="gender" />
