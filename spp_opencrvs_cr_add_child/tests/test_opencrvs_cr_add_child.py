@@ -122,7 +122,7 @@ class TestCRAddChild(TransactionCase):
 
         stage = 1
         while stage <= 2:
-            self.with_user(self._test_user_validator.id).action_validate()
+            request_type.with_user(self._test_user_validator.id).action_validate()
             stage += 1
 
         self.assertEqual(request_type.state, "applied")
