@@ -14,8 +14,8 @@ class TestCRVSAddChild(TransactionCase):
         self._test_applicant = self.env["res.partner"].create(
             {
                 "name": "WAMBUI BARASA",
-                "family_name": "BARASA",
-                "given_name": "WAMBUI",
+                "family_name": "Barasa",
+                "given_name": "Wambui",
                 "is_group": False,
                 "is_registrant": True,
                 "phone": "+639266716911",
@@ -31,8 +31,8 @@ class TestCRVSAddChild(TransactionCase):
         self._test_member = self.env["res.partner"].create(
             {
                 "name": "NJERI BARASA",
-                "family_name": "BARASA",
-                "given_name": "NJERI",
+                "family_name": "Barasa",
+                "given_name": "Njeri",
                 "is_group": False,
                 "is_registrant": True,
                 "phone": "+639266716911",
