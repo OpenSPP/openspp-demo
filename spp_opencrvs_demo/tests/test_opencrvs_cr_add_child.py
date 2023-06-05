@@ -55,33 +55,6 @@ class TestCRVSAddChild(TransactionCase):
                 "is_active": True,
             }
         )
-        self._test_user_validator = self.env["res.users"].create(
-            {
-                "name": "CR Validator Local and HQ",
-                "login": "cr_validator_both",
-                "email": "cr_validator_both@yourorg.example.com",
-                "password": "atMnSaWYymYD",
-                "groups_id": [
-                    (
-                        6,
-                        0,
-                        [
-                            self.env.ref("base.group_user").id,
-                            self.env.ref(
-                                "spp_change_request.group_spp_change_request_hq_validator"
-                            ).id,
-                            self.env.ref(
-                                "spp_change_request.group_spp_change_request_local_validator"
-                            ).id,
-                            self.env.ref(
-                                "spp_change_request.group_spp_change_request_validator"
-                            ).id,
-                            self.env.ref("g2p_registry_base.group_g2p_admin").id,
-                        ],
-                    )
-                ],
-            }
-        )
 
     def create_mock_cr(self):
         vals = {
