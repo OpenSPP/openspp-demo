@@ -1,6 +1,6 @@
-from odoo.tests import TransactionCase
-from odoo.exceptions import UserError, ValidationError
 from odoo import fields
+from odoo.exceptions import ValidationError
+from odoo.tests import TransactionCase
 
 
 class TestCRAddChild(TransactionCase):
@@ -26,10 +26,7 @@ class TestCRAddChild(TransactionCase):
         # Add _test_applicant to _test_hh
 
         self._test_group_membership = self.env["g2p.group.membership"].create(
-            {
-                "group": self._test_hh.id,
-                "individual": self._test_applicant.id
-            }
+            {"group": self._test_hh.id, "individual": self._test_applicant.id}
         )
 
         self._test_user_validator = self.env["res.users"].create(
@@ -38,11 +35,25 @@ class TestCRAddChild(TransactionCase):
                 "login": "cr_validator_both",
                 "email": "cr_validator_both@yourorg.example.com",
                 "password": "atMnSaWYymYD",
-                "groups_id": [(6, 0, [self.env.ref('base.group_user').id,
-                                      self.env.ref('spp_change_request.group_spp_change_request_hq_validator').id,
-                                      self.env.ref('spp_change_request.group_spp_change_request_local_validator').id,
-                                      self.env.ref('spp_change_request.group_spp_change_request_validator').id ,
-                                      self.env.ref('g2p_registry_base.group_g2p_admin').id])],
+                "groups_id": [
+                    (
+                        6,
+                        0,
+                        [
+                            self.env.ref("base.group_user").id,
+                            self.env.ref(
+                                "spp_change_request.group_spp_change_request_hq_validator"
+                            ).id,
+                            self.env.ref(
+                                "spp_change_request.group_spp_change_request_local_validator"
+                            ).id,
+                            self.env.ref(
+                                "spp_change_request.group_spp_change_request_validator"
+                            ).id,
+                            self.env.ref("g2p_registry_base.group_g2p_admin").id,
+                        ],
+                    )
+                ],
             }
         )
 
@@ -107,7 +118,7 @@ class TestCRAddChild(TransactionCase):
             }
         )
 
-        request_type.validate_data()
+        request_type.action_submit()
         change_request.assign_to_user(self._test_user_validator)
         stage = 1
         while stage <= 2:
