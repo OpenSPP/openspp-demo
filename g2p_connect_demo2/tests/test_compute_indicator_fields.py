@@ -33,7 +33,6 @@ class ComputeIndicatorFieldsTest(TransactionCase):
                 "is_group": False,
                 "is_registrant": True,
                 "gender": "Female",
-                "z_cst_indv_locust_aug_2022_injured": True,
                 "birthdate": datetime.datetime.now(),
             }
         )
@@ -45,7 +44,6 @@ class ComputeIndicatorFieldsTest(TransactionCase):
                 "is_group": False,
                 "is_registrant": True,
                 "gender": "Female",
-                "z_cst_indv_locust_aug_2022_injured": True,
                 "birthdate": datetime.datetime.now(),
             }
         )
