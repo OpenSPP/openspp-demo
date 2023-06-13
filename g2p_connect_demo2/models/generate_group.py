@@ -157,6 +157,8 @@ class OpenG2PGenerateData(models.Model):
                 "z_cst_grp_house_damaged_during_locust_infestation_aug_2022": random.choice(
                     [True, False]
                 ),
+                "z_cst_grp_locust_affected_aug_2022": random.choice([True, False]),
+                "z_cst_grp_is_farmer": random.choice([True, False]),
             }
 
             create_group_id = self.env["res.partner"].create(group)
