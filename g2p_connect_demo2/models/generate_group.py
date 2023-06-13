@@ -154,7 +154,7 @@ class OpenG2PGenerateData(models.Model):
                 "zip": fake[locale].postcode(),
                 "area_id": random.choice(center_area_ids),
                 "bank_ids": bank_ids,
-                "z_cst_grp_house_damaged_during_locust_infestation_aug_2022": random.choice(
+                "z_cst_grp_house_damaged_during_locust_aug_2022": random.choice(
                     [True, False]
                 ),
                 "z_cst_grp_locust_affected_aug_2022": random.choice([True, False]),
@@ -274,9 +274,8 @@ class OpenG2PGenerateData(models.Model):
         if different_last_name:
             last_name = fake.last_name()
 
-        injured = False
         if random.randint(0, 10) == 1:
-            injured = True
+            pass
 
         disability_level = 0
         if random.randint(0, 100) < 2:
@@ -330,11 +329,10 @@ class OpenG2PGenerateData(models.Model):
             "is_group": False,
             "phone": phone,
             "registration_date": registration_date,
-            "z_cst_indv_locust_infestation_aug_2022_injured": injured,
             "z_cst_indv_disability_level": disability_level,
             "z_cst_indv_receive_government_benefits": gov_benefits,
-            "z_cst_indv_locust_infestation_aug_2022_lost_livestock": lost_livestock,
-            "z_cst_indv_locust_infestation_aug_2022_lost_primary_source_income": lost_primary_source_income,
+            "z_cst_indv_locust_aug_2022_lost_livestock": lost_livestock,
+            "z_cst_indv_locust_aug_2022_lost_primary_source_income": lost_primary_source_income,
             "z_cst_indv_pregnancy_start_date": date_pregnancy,
             "street": fake.street_address(),
             "street2": fake.street_name(),

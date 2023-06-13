@@ -33,7 +33,7 @@ class ComputeIndicatorFieldsTest(TransactionCase):
                 "is_group": False,
                 "is_registrant": True,
                 "gender": "Female",
-                "z_cst_indv_locust_infestation_aug_2022_injured": True,
+                "z_cst_indv_locust_aug_2022_injured": True,
                 "birthdate": datetime.datetime.now(),
             }
         )
@@ -45,7 +45,7 @@ class ComputeIndicatorFieldsTest(TransactionCase):
                 "is_group": False,
                 "is_registrant": True,
                 "gender": "Female",
-                "z_cst_indv_locust_infestation_aug_2022_injured": True,
+                "z_cst_indv_locust_aug_2022_injured": True,
                 "birthdate": datetime.datetime.now(),
             }
         )
@@ -111,7 +111,7 @@ class ComputeIndicatorFieldsTest(TransactionCase):
                 "is_group": False,
                 "is_registrant": True,
                 "gender": "Male",
-                "z_cst_indv_locust_infestation_aug_2022_lost_livestock": True,
+                "z_cst_indv_locust_aug_2022_lost_livestock": True,
                 "birthdate": datetime.datetime.now(),
             }
         )
@@ -123,7 +123,7 @@ class ComputeIndicatorFieldsTest(TransactionCase):
                 "is_group": False,
                 "is_registrant": True,
                 "gender": "Male",
-                "z_cst_indv_locust_infestation_aug_2022_lost_livestock": True,
+                "z_cst_indv_locust_aug_2022_lost_livestock": True,
                 "birthdate": datetime.datetime.now(),
             }
         )
@@ -137,7 +137,7 @@ class ComputeIndicatorFieldsTest(TransactionCase):
                 "is_group": False,
                 "is_registrant": True,
                 "gender": "Female",
-                "z_cst_indv_locust_infestation_aug_2022_lost_primary_source_income": True,
+                "z_cst_indv_locust_aug_2022_lost_primary_source_income": True,
                 "birthdate": datetime.datetime.now(),
             }
         )
@@ -149,7 +149,7 @@ class ComputeIndicatorFieldsTest(TransactionCase):
                 "is_group": False,
                 "is_registrant": True,
                 "gender": "Female",
-                "z_cst_indv_locust_infestation_aug_2022_lost_primary_source_income": True,
+                "z_cst_indv_locust_aug_2022_lost_primary_source_income": True,
                 "birthdate": datetime.datetime.now(),
             }
         )
@@ -265,13 +265,13 @@ class ComputeIndicatorFieldsTest(TransactionCase):
         )
 
 
-#     def test_05_num_locust_infestation_aug_2022_injured(self):
+#     def test_05_num_locust_aug_2022_injured(self):
 #         self.assertEqual(
-#             self.group_2.z_ind_grp_num_locust_infestation_aug_2022_injured,
+#             self.group_2.z_ind_grp_num_locust_aug_2022_injured,
 #             1,
 #         )
 #         self.assertEqual(
-#             self.group_1.z_ind_grp_num_locust_infestation_aug_2022_injured,
+#             self.group_1.z_ind_grp_num_locust_aug_2022_injured,
 #             1,
 #         )
 
@@ -285,23 +285,23 @@ class ComputeIndicatorFieldsTest(TransactionCase):
 #             1,
 #         )
 
-#     def test_07_num_locust_infestation_aug_2022_lost_livestock(self):
+#     def test_07_num_locust_aug_2022_lost_livestock(self):
 #         self.assertEqual(
-#             self.group_2.z_ind_grp_num_locust_infestation_aug_2022_lost_livestock,
+#             self.group_2.z_ind_grp_num_locust_aug_2022_lost_livestock,
 #             1,
 #         )
 #         self.assertEqual(
-#             self.group_1.z_ind_grp_num_locust_infestation_aug_2022_lost_livestock,
+#             self.group_1.z_ind_grp_num_locust_aug_2022_lost_livestock,
 #             1,
 #         )
 
-#     def test_08_num_locust_infestation_aug_2022_lost_primary_source_income(self):
+#     def test_08_num_locust_aug_2022_lost_primary_source_income(self):
 #         self.assertEqual(
-#             self.group_2.z_ind_grp_num_locust_infestation_aug_2022_lost_primary_source_income,
+#             self.group_2.z_ind_grp_num_locust_aug_2022_lost_primary_source_income,
 #             1,
 #         )
 #         self.assertEqual(
-#             self.group_1.z_ind_grp_num_locust_infestation_aug_2022_lost_primary_source_income,
+#             self.group_1.z_ind_grp_num_locust_aug_2022_lost_primary_source_income,
 #             1,
 #         )
 

@@ -45,16 +45,16 @@ class G2PGroup(models.Model):
         store=True,
         allow_filter=True,
     )
-    z_ind_grp_num_locust_infestation_aug_2022_lost_livestock = fields.Integer(
+    z_ind_grp_num_locust_aug_2022_lost_livestock = fields.Integer(
         "Number of members lost significant livestock during Locust Infestation Aug 2022",
-        compute="_compute_ind_grp_num_locust_infestation_aug_2022_lost_livestock",
+        compute="_compute_ind_grp_num_locust_aug_2022_lost_livestock",
         help="Number of members lost significant livestock during Locust Infestation Aug 2022",
         store=True,
         allow_filter=True,
     )
-    z_ind_grp_num_locust_infestation_aug_2022_lost_primary_source_income = fields.Integer(
+    z_ind_grp_num_locust_aug_2022_lost_primary_source_income = fields.Integer(
         "Number of members lost primary source income during Locust Infestation Aug 2022",
-        compute="_compute_ind_grp_num_locust_infestation_aug_2022_lost_primary_source_income",
+        compute="_compute_ind_grp_num_locust_aug_2022_lost_primary_source_income",
         help="Number of members lost primary source income during Locust Infestation Aug 2022",
         store=True,
         allow_filter=True,
@@ -115,7 +115,7 @@ class G2PGroup(models.Model):
     )
     z_cst_grp_is_farm = fields.Boolean("Is Farm")
     z_cst_grp_locust_affected_aug_2022 = fields.Boolean("Locust Affected Aug 2022")
-    z_cst_grp_house_damaged_during_locust_infestation_aug_2022 = fields.Boolean(
+    z_cst_grp_house_damaged_during_locust_aug_2022 = fields.Boolean(
         "House damaged during locust infestation Aug 2022"
     )
 
@@ -233,18 +233,18 @@ class G2PGroup(models.Model):
             "z_ind_grp_num_receive_government_benefits", None, domain
         )
 
-    def _compute_ind_grp_num_locust_infestation_aug_2022_lost_livestock(self):
+    def _compute_ind_grp_num_locust_aug_2022_lost_livestock(self):
         """
         Number of members lost significant livestock during Locust Infestation Aug 2022
         Returns:
 
         """
-        domain = [("z_cst_indv_locust_infestation_aug_2022_lost_livestock", "=", True)]
+        domain = [("z_cst_indv_locust_aug_2022_lost_livestock", "=", True)]
         self.compute_count_and_set_indicator(
-            "z_ind_grp_num_locust_infestation_aug_2022_lost_livestock", None, domain
+            "z_ind_grp_num_locust_aug_2022_lost_livestock", None, domain
         )
 
-    def _compute_ind_grp_num_locust_infestation_aug_2022_lost_primary_source_income(
+    def _compute_ind_grp_num_locust_aug_2022_lost_primary_source_income(
         self,
     ):
         """
@@ -254,13 +254,13 @@ class G2PGroup(models.Model):
         """
         domain = [
             (
-                "z_cst_indv_locust_infestation_aug_2022_lost_primary_source_income",
+                "z_cst_indv_locust_aug_2022_lost_primary_source_income",
                 "=",
                 True,
             )
         ]
         self.compute_count_and_set_indicator(
-            "z_ind_grp_num_locust_infestation_aug_2022_lost_primary_source_income",
+            "z_ind_grp_num_locust_aug_2022_lost_primary_source_income",
             None,
             domain,
         )
