@@ -26,4 +26,4 @@ class G2PIndividual(models.Model):
 
     # Demo 2
     z_cst_indv_has_birth_certificate = fields.Boolean("Has birth certificate")
-    z_cst_ind_pregnancy_start_date = fields.Date("Pregnancy Start Date")
+    z_cst_indv_pregnancy_start_date = fields.Date("Pregnancy Start Date")

@@ -113,7 +113,7 @@ class G2PGroup(models.Model):
         store=True,
         allow_filter=True,
     )
-    z_cst_grp_is_farmer = fields.Boolean("Is Farmer")
+    z_cst_grp_is_farm = fields.Boolean("Is Farm")
     z_cst_grp_locust_affected_aug_2022 = fields.Boolean("Locust Affected Aug 2022")
     z_cst_grp_house_damaged_during_locust_infestation_aug_2022 = fields.Boolean(
         "House damaged during locust infestation Aug 2022"
