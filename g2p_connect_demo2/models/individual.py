@@ -20,7 +20,7 @@ class G2PIndividual(models.Model):
     z_cst_indv_locust_aug_2022_lost_primary_source_income = fields.Boolean(
         "Lost primary source income during Locust Infestation Aug 2022"
     )
-
+    z_cst_indv_is_farmer = fields.Boolean("Is a farmer")
     # Demo 2
     z_cst_indv_has_birth_certificate = fields.Boolean("Has birth certificate")
     z_cst_indv_pregnancy_start_date = fields.Date("Pregnancy Start Date")

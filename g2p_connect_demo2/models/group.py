@@ -118,6 +118,12 @@ class G2PGroup(models.Model):
     z_cst_grp_house_damaged_during_locust_aug_2022 = fields.Boolean(
         "House damaged during locust infestation Aug 2022"
     )
+    z_cst_grp_partial_crop_destruction_due_to_locust = fields.Boolean(
+        "Partial crop farm destruction due to locust infestation"
+    )
+    z_cst_grp_repeated_crop_failure_due_lack_rainfall = fields.Boolean(
+        "Repeated crop failure due to consecutive lack of rainfall"
+    )
 
     def _compute_ind_grp_single_child_less_36m_with_birth_cert(self):
         for rec in self:

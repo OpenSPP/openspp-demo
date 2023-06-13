@@ -158,6 +158,12 @@ class OpenG2PGenerateData(models.Model):
                     [True, False]
                 ),
                 "z_cst_grp_locust_affected_aug_2022": random.choice([True, False]),
+                "z_cst_grp_partial_crop_destruction_due_to_locust": random.choice(
+                    [True, False]
+                ),
+                "z_cst_grp_repeated_crop_failure_due_lack_rainfall": random.choice(
+                    [True, False]
+                ),
                 "z_cst_grp_is_farm": random.choice([True, False]),
             }
 
@@ -334,6 +340,7 @@ class OpenG2PGenerateData(models.Model):
             "z_cst_indv_locust_aug_2022_lost_livestock": lost_livestock,
             "z_cst_indv_locust_aug_2022_lost_primary_source_income": lost_primary_source_income,
             "z_cst_indv_pregnancy_start_date": date_pregnancy,
+            "z_cst_indv_is_farmer": random.choice([True, False]),
             "street": fake.street_address(),
             "street2": fake.street_name(),
             "city": fake.city(),
