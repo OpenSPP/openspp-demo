@@ -13,7 +13,6 @@
         "g2p_registry_base",
         "g2p_registry_group",
         "g2p_registry_individual",
-        "base_geolocalize",
     ],
     "data": [
         "data/group_kinds.xml",
