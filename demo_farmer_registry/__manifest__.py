@@ -13,6 +13,7 @@
         "g2p_registry_base",
         "g2p_registry_group",
         "g2p_registry_individual",
+        "spp_custom_filter",
     ],
     "data": [
         "data/group_kinds.xml",

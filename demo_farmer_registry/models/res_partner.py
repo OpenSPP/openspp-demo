@@ -14,16 +14,22 @@ class ResPartner(models.Model):
             ("other", "Other"),
         ],
         string="Crop Grown",
+        allow_filter=True,
     )
-    grp_crop_grown_other = fields.Char(string="Specify Other Crop")
-    grp_arable_land_owned = fields.Float(string="Arable Hectares of Land Owned")
-    grp_arable_land_farmed = fields.Float(string="Arable Hectares of Land Farmed")
+    grp_crop_grown_other = fields.Char(string="Specify Other Crop", allow_filter=True)
+    grp_arable_land_owned = fields.Float(
+        string="Arable Hectares of Land Owned", allow_filter=True
+    )
+    grp_arable_land_farmed = fields.Float(
+        string="Arable Hectares of Land Farmed", allow_filter=True
+    )
     grp_use_of_certified_seeds = fields.Selection(
         [
             ("yes", "Yes"),
             ("no", "No"),
         ],
         string="Use of Certified Seeds",
+        allow_filter=True,
     )
     grp_fertilizer_usage = fields.Selection(
         [
@@ -32,6 +38,7 @@ class ResPartner(models.Model):
             ("none", "None"),
         ],
         string="Fertilizer Usage",
+        allow_filter=True,
     )
     grp_soil_type = fields.Selection(
         [
@@ -43,6 +50,7 @@ class ResPartner(models.Model):
             ("chalky", "Chalky"),
         ],
         string="Soil Type",
+        allow_filter=True,
     )
     grp_irrigation_availability = fields.Selection(
         [
@@ -50,6 +58,7 @@ class ResPartner(models.Model):
             ("no", "No"),
         ],
         string="Irrigation Availability",
+        allow_filter=True,
     )
     grp_source_of_irrigation = fields.Selection(
         [
@@ -59,9 +68,11 @@ class ResPartner(models.Model):
             ("other", "Other"),
         ],
         string="Source of Irrigation",
+        allow_filter=True,
     )
     grp_source_of_irrigation_other = fields.Char(
-        string="Specify Other Source of Irrigation"
+        string="Specify Other Source of Irrigation",
+        allow_filter=True,
     )
 
     grp_land_ownership = fields.Selection(
@@ -71,6 +82,7 @@ class ResPartner(models.Model):
             ("shared", "Shared"),
         ],
         string="Land Ownership",
+        allow_filter=True,
     )
 
     grp_land_usage = fields.Selection(
@@ -80,6 +92,7 @@ class ResPartner(models.Model):
             ("fallow", "Fallow"),
         ],
         string="Land Usage",
+        allow_filter=True,
     )
 
     grp_types_of_machinery_owned = fields.Selection(
@@ -90,6 +103,7 @@ class ResPartner(models.Model):
             ("other", "Other"),
         ],
         string="Types of Machinery Owned",
+        allow_filter=True,
     )
     grp_types_of_machinery_owned_other = fields.Char(string="Specify Other Machinery")
 
@@ -100,17 +114,19 @@ class ResPartner(models.Model):
             ("shared", "Shared"),
         ],
         string="Machinery Usage",
+        allow_filter=True,
     )
 
-    grp_family_labour = fields.Integer(string="Family Labour")
+    grp_family_labour = fields.Integer(string="Family Labour", allow_filter=True)
 
-    grp_hired_labour = fields.Integer(string="Hired Labour")
+    grp_hired_labour = fields.Integer(string="Hired Labour", allow_filter=True)
 
     grp_government_subsidies_received = fields.Float(
-        string="Government Subsidies Received"
+        string="Government Subsidies Received",
+        allow_filter=True,
     )
 
-    grp_loans_and_credits = fields.Float(string="Loans and Credits")
+    grp_loans_and_credits = fields.Float(string="Loans and Credits", allow_filter=True)
 
     grp_insurance_coverage = fields.Selection(
         [
@@ -120,6 +136,7 @@ class ResPartner(models.Model):
             ("none", "None"),
         ],
         string="Insurance Coverage",
+        allow_filter=True,
     )
 
     grp_use_of_organic_farming_practices = fields.Selection(
@@ -128,6 +145,7 @@ class ResPartner(models.Model):
             ("no", "No"),
         ],
         string="Use of Organic Farming Practices",
+        allow_filter=True,
     )
 
     grp_water_conservation_practices = fields.Selection(
@@ -136,6 +154,7 @@ class ResPartner(models.Model):
             ("no", "No"),
         ],
         string="Water Conservation Practices",
+        allow_filter=True,
     )
 
     grp_soil_conservation_practices = fields.Selection(
@@ -144,10 +163,12 @@ class ResPartner(models.Model):
             ("no", "No"),
         ],
         string="Soil Conservation Practices",
+        allow_filter=True,
     )
 
     grp_agricultural_or_environmental_certifications = fields.Char(
-        string="Agricultural or Environmental Certifications Obtained"
+        string="Agricultural or Environmental Certifications Obtained",
+        allow_filter=True,
     )
 
     grp_use_of_digital_tools = fields.Selection(
@@ -156,6 +177,7 @@ class ResPartner(models.Model):
             ("no", "No"),
         ],
         string="Use of Digital Tools",
+        allow_filter=True,
     )
 
     grp_use_of_modern_farming_techniques = fields.Selection(
@@ -164,14 +186,17 @@ class ResPartner(models.Model):
             ("no", "No"),
         ],
         string="Use of Modern Farming Techniques",
+        allow_filter=True,
     )
 
     # Geolocation
-    longitude = fields.Float(digits=(16, 5))
-    latitude = fields.Float(digits=(16, 5))
+    longitude = fields.Float(digits=(16, 5), allow_filter=True)
+    latitude = fields.Float(digits=(16, 5), allow_filter=True)
 
     geolocation_json = fields.Char(
-        compute="_compute_geolocation_json", inverse="_inverse_geolocation_json"
+        compute="_compute_geolocation_json",
+        inverse="_inverse_geolocation_json",
+        allow_filter=True,
     )
 
     @api.depends("latitude", "longitude")
