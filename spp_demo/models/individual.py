@@ -16,6 +16,31 @@ class G2PIndividual(models.Model):
     z_cst_indv_pregnancy_start = fields.Date(
         "Pregnancy start"
     )  # We set a date to be able to clean it later
-    z_cst_indv_lactation_start = fields.Date(
-        "Lactation start"
+    z_cst_indv_pregnancy_end = fields.Date(
+        "Pregnancy end"
     )  # We set a date to be able to clean it later
+
+    # Maternal and neonatal outcomes
+    z_cst_indv_pregnancy_maternal_outcome = fields.Selection(
+        [
+            ("normal", "Normal"),
+            ("preterm", "Preterm birth"),
+            ("stillbirth", "Stillbirth"),
+        ],
+        "Maternal outcome",
+    )
+    z_cst_indv_pregnancy_neonatal_outcome = fields.Selection(
+        [
+            ("normal", "Neonatal death"),
+            ("conanomalies", "Congenital anomalies"),
+            ("infections", "Neonatal infections"),
+            ("loweight", "Low birth weight"),
+            ("small", "Small for gestational age"),
+            ("respiratory", "Respiratory distress"),
+            ("thrive", "Failure to thrive"),
+            ("seizures", "Neonatal seizures"),
+            ("neurodevdelay", "Neurodevelopmental delay"),
+
+        ],
+        "Neonatal outcome",
+    )
