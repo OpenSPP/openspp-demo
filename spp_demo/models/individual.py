@@ -40,7 +40,6 @@ class G2PIndividual(models.Model):
             ("thrive", "Failure to thrive"),
             ("seizures", "Neonatal seizures"),
             ("neurodevdelay", "Neurodevelopmental delay"),
-
         ],
         "Neonatal outcome",
     )

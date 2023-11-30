@@ -276,12 +276,12 @@ class G2PGroup(models.Model):
         """
         six_months_ago = datetime.datetime.now() - relativedelta(months=6)
         domain = [
-            '|',
-            ('z_cst_indv_pregnancy_start', '!=', False),
-            ('z_cst_indv_pregnancy_end', '=', False),
-            '&',
-            ('z_cst_indv_pregnancy_end', '!=', False),
-            ('z_cst_indv_pregnancy_end', '<', six_months_ago),
+            "|",
+            ("z_cst_indv_pregnancy_start", "!=", False),
+            ("z_cst_indv_pregnancy_end", "=", False),
+            "&",
+            ("z_cst_indv_pregnancy_end", "!=", False),
+            ("z_cst_indv_pregnancy_end", "<", six_months_ago),
         ]
         self.compute_count_and_set_indicator(
             "z_ind_grp_is_hh_with_pregnant_lactating",
