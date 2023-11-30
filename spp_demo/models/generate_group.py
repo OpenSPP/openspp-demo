@@ -237,7 +237,7 @@ class G2PGenerateData(models.Model):
             disability_level = random.randint(10, 100)
 
         pregnancy_start = None
-        lactation_start = None
+        pregnancy_end = None
         if sex == "Female" and age_group == "A":
             rnd = random.randint(0, 100)
             if rnd < 15:
@@ -246,7 +246,7 @@ class G2PGenerateData(models.Model):
                     date_end=datetime.datetime.now(),
                 ).isoformat()
             elif rnd > 80:
-                lactation_start = fake.date_between_dates(
+                pregnancy_end = fake.date_between_dates(
                     date_start=datetime.datetime.now() - relativedelta(months=24),
                     date_end=datetime.datetime.now(),
                 ).isoformat()
@@ -269,5 +269,5 @@ class G2PGenerateData(models.Model):
             "z_cst_indv_disability_level": disability_level,
             "z_cst_indv_medical_condition": medical_condition,
             "z_cst_indv_pregnancy_start": pregnancy_start,
-            "z_cst_indv_lactation_start": lactation_start,
+            "z_cst_indv_pregnancy_end": pregnancy_end,
         }
