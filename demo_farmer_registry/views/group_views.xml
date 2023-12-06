@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="view_farmer_form" model="ir.ui.view">
+        <field name="name">view_farmer_form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="g2p_registry_group.view_groups_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='basic_info']" position="after">
+                <page string="Farm Information" name="farm_information">
+                    <group col="4" colspan="4" string="Crop">
+                        <field name="grp_crop_grown" />
+                        <field name="grp_crop_grown_other" />
+                        <field name="grp_use_of_certified_seeds" />
+                        <field name="grp_fertilizer_usage" />
+                        <field name="grp_use_of_organic_farming_practices" />
+                    </group>
+                    <group col="4" colspan="4" string="Irrigation">
+                        <field name="grp_irrigation_availability" />
+                        <field name="grp_source_of_irrigation" />
+                        <field name="grp_source_of_irrigation_other" />
+                        <field name="grp_water_conservation_practices" />
+                    </group>
+                    <group col="4" colspan="4" string="Land">
+                        <field name="grp_arable_land_owned" />
+                        <field name="grp_arable_land_farmed" />
+                        <field name="grp_land_ownership" />
+                        <field name="grp_land_usage" />
+                        <field name="grp_soil_type" />
+                        <field name="grp_soil_conservation_practices" />
+                    </group>
+                    <group col="4" colspan="4" string="Other Information">
+                        <field name="grp_types_of_machinery_owned" />
+                        <field name="grp_types_of_machinery_owned_other" />
+                        <field name="grp_machinery_usage" />
+                        <field name="grp_family_labour" />
+                        <field name="grp_hired_labour" />
+                        <field name="grp_government_subsidies_received" />
+                        <field name="grp_loans_and_credits" />
+                        <field name="grp_insurance_coverage" />
+                        <field name="grp_agricultural_or_environmental_certifications" />
+                        <field name="grp_use_of_digital_tools" />
+                        <field name="grp_use_of_modern_farming_techniques" />
+                    </group>
+                </page>
+                <page string="Geolocation" name="geolocation">
+                    <div colspan="2" class="d-flex">
+                        <!-- <button string="Geolocalize"
+                                name="geo_localize"
+                                type="object"
+                                style="display: flex; align-items: center;"
+                                icon="fa-check"/> -->
+                        <field
+                            name="geolocation_json"
+                            widget="map_widget"
+                            class="mb-0 ml-2"
+                            nolabel="1"
+                            options="{'zoom': 18, 'maxZoom': 20}"
+                        />
+                    </div>
+                    <div name="geo_coordinates">
+                        <span class="oe_inline"> ( </span>
+                        <span> Lat : </span>
+                        <field name="latitude" class="oe_inline" no_label="1" />
+                        <span> : Long : </span>
+                        <field name="longitude" class="oe_inline" nolabel="1" />
+                        <span>) </span>
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
